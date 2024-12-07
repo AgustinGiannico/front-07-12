@@ -1,0 +1,56 @@
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 2rem;
+}
+
+.back-button {
+  align-self: flex-start; /* Alinea el botón a la izquierda */
+  margin-bottom: 1rem; /* Espacio entre el botón y la sección */
+  background-color: #8f9dad;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.back-button:hover {
+  background-color: #2d333a;
+}
+
+.grid-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap; /* Permite que los botones se ajusten en múltiples filas */
+  gap: 1rem;
+  width: 100%; /* Asegura que ocupe todo el ancho */
+}
+
+.card {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  text-align: center;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  flex: 1 1 150px; /* Asegura que cada botón tenga un tamaño mínimo */
+  max-width: 200px; /* Define un tamaño máximo */
+}
+
+.card small {
+  font-weight: normal;
+  color: #666;
+}
+
+.card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}

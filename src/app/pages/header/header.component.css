@@ -1,0 +1,42 @@
+.header {
+  background-color: #8f9dad;
+  padding: 20px;
+  color: white;
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.navigation ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.navigation li {
+  margin-left: 20px;
+}
+
+.navigation a,
+.logout-button {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.navigation a:hover,
+.logout-button:hover {
+  text-decoration: underline;
+}

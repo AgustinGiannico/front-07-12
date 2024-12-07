@@ -1,0 +1,13 @@
+<header class="header">
+  <div class="header-content">
+    <h1 class="logo">UTN</h1>
+    <nav class="navigation">
+      <ul *ngIf="!isLoginRoute">
+        <li><a routerLink="/">Inicio</a></li>
+        <li>
+          <button class="logout-button" (click)="cerrarSesion()">Cerrar sesión</button>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>

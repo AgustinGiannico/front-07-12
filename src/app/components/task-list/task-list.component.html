@@ -1,0 +1,68 @@
+<div class="task-list-container">
+  <button class="back-button" (click)="goBack()">Volver Atrás</button>
+  <h1 class="title">Gestión de Listas de Tareas</h1>
+
+  <div *ngIf="message" class="message">{{ message }}</div>
+
+  <div class="section-title">Lista de Listas de Tareas</div>
+
+  <table class="task-list-table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Tipo de Activo</th>
+        <th>Tipo de Tarea</th>
+        <th>Pasos</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let taskList of paginatedTaskLists" class="task-list-row">
+        <td>{{ taskList.id_task_list }}</td>
+        <td>{{ taskList.asset_type_name !== 'NA' ? taskList.asset_type_name : '-' }}</td> <!-- Condición para mostrar "-" -->
+        <td>{{ taskList.task_type_name !== 'NA' ? taskList.task_type_name : '-' }}</td> <!-- Condición para mostrar "-" -->
+        <td>
+          <div *ngFor="let step of steps">
+            {{ step.label }}: {{ taskList[step.field] !== 'NA' ? taskList[step.field] : '-' }}
+          </div>
+        </td>
+        <td>
+          <button class="edit-button" (click)="editTaskList(taskList)">Editar</button>
+          <button class="delete-button" (click)="deleteTaskList(taskList.id_task_list)">Eliminar</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage === 1">&lt; Anterior</button>
+    <span>Página {{ currentPage }} de {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages">Siguiente &gt;</button>
+  </div>
+
+  <div class="create-button-container">
+    <button class="create-button" (click)="openCreateForm()">Crear Nueva Lista de Tareas</button>
+  </div>
+
+  <div *ngIf="showForm" class="form-container">
+    <h2 class="form-title">{{ selectedTaskList ? 'Editar Lista de Tareas' : 'Crear Nueva Lista de Tareas' }}</h2>
+    <form [formGroup]="taskListForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="id_asset_type">Tipo de Activo</label>
+        <input id="id_asset_type" formControlName="id_asset_type" type="number" class="form-input" />
+      </div>
+      <div class="form-group">
+        <label for="id_task_type">Tipo de Tarea</label>
+        <input id="id_task_type" formControlName="id_task_type" type="number" class="form-input" />
+      </div>
+      <div *ngFor="let step of steps" class="form-group">
+        <label [for]="step.field">{{ step.label }}</label>
+        <input [id]="step.field" [formControlName]="step.field" type="number" class="form-input" />
+      </div>
+      <div class="form-buttons">
+        <button type="submit" class="submit-button">{{ selectedTaskList ? 'Actualizar' : 'Crear' }}</button>
+        <button type="button" class="clear-button" (click)="clearForm()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>
