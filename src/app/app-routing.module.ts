@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { authGuard } from '../app/auth/auth.guard';
 import { AdminGuard } from './auth/admin.guard';
-import { OperarioGuard } from './auth/operario.guard';
-
 import { RegistroComponent } from './pages/registro/registro.component';
 import { LoginComponent } from './pages/login/login.component';
 import { LaunchpadComponent } from './pages/launchpad/launchpad.component';
