@@ -1,6 +1,8 @@
 .back-button {
   align-self: flex-start; /* Alinea el botón a la izquierda */
   margin-bottom: 1rem; /* Espacio entre el botón y la sección */
+  margin-top: 2rem;
+  margin-left: 32px;
   background-color: #8f9dad;
   color: white;
   border: none;
@@ -81,8 +83,14 @@
   color: #333;
 }
 
+.button-container {
+  display: flex;
+  justify-content: space-between; /* Espaciado uniforme entre botones */
+  gap: 50px; /* Espaciado entre los botones */
+  margin-top: 20px; /* Opcional: espacio superior si es necesario */
+}
 
-.submit-button {
+.submit-button, .submit-button1 {
   width: 40%;
   padding: 12px;
   font-size: 1rem;
@@ -95,6 +103,7 @@
   background-color: #4CAF50;
 }
 
-.submit-button:hover {
+
+.submit-button:hover,.submit-button1:hover {
   background-color: #45a049;
 }

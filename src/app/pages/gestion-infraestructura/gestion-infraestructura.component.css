@@ -1,6 +1,8 @@
 .back-button {
-    align-self: flex-start; /* Alinea el botón a la izquierda */
-    margin-bottom: 1rem; /* Espacio entre el botón y la sección */
+    align-self: flex-start;
+    margin-bottom: 1rem;
+    margin-top: 2rem;
+    margin-left: 32px;
     background-color: #8f9dad;
     color: white;
     border: none;
@@ -15,10 +17,11 @@
 }
 
 .grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
     gap: 1rem;
-    padding: 2rem;
+    width: 100%;
 }
 
 .card {
@@ -31,8 +34,9 @@
     font-weight: bold;
     color: #333;
     transition: transform 0.2s ease;
-
     cursor: pointer;
+    flex: 1 1 150px;
+    max-width: 200px;
 }
 
 .card small {

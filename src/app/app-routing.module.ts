@@ -33,13 +33,15 @@ const routes: Routes = [
 
   {
     path: '',
-    component: LaunchpadComponent
+    component: LaunchpadComponent,
+    canActivate: [authGuard]
   },
 
   {
     path: 'registro',
     component: RegistroComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, authGuard]
+
   },
 
   {
@@ -48,81 +50,84 @@ const routes: Routes = [
   },
   {
     path: 'gestion-ordenes',
-    component: GestionOrdenesComponent
+    component: GestionOrdenesComponent,
+    canActivate: [authGuard]
   },
+
   {
     path: 'gestion-infraestructura',
     component: GestionInfraestructuraComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, authGuard]
   },
   {
     path: 'gestion-operarios',
     component: GestionOperariosComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, authGuard]
   },
   {
     path: 'edificio',
     component: EdificeComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, authGuard]
   },
   {
     path: 'piso',
     component: FloorComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, authGuard]
   },
   {
     path: 'sector',
     component: SectorComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, authGuard]
   },
   {
     path: 'ubicacion',
     component: SiteComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, authGuard]
   },
   {
     path: 'tipo-activo',
     component: AssetTypeComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, authGuard]
   },
   {
     path: 'tag',
     component: TagComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, authGuard]
   },
   {
     path: 'task',
     component: TaskComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, authGuard]
   },
   {
     path: 'task-type',
     component: TaskTypeComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, authGuard]
   },
   {
     path: 'task-list',
     component: TaskListComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, authGuard]
   },
   {
     path: 'ver-ordenes',
     component: OtComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, authGuard]
   },
   {
     path: 'ver-mis-ordenes',
-    component: OtOperarioComponent
+    component: OtOperarioComponent,
+    canActivate: [authGuard]
   },
   {
     path: 'crear-orden',
     component: CrearOrdenComponent,
-    canActivate: [AdminGuard]
+    canActivate: [AdminGuard, authGuard]
   },
 
   {
     path: '**', component: NotFoundComponent
- }
+  }
 ];
 
 @NgModule({

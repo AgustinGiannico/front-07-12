@@ -1,6 +1,8 @@
 .back-button {
   align-self: flex-start; /* Alinea el botón a la izquierda */
   margin-bottom: 1rem; /* Espacio entre el botón y la sección */
+  margin-top: 1rem;
+  margin-left: 32px;
   background-color: #8f9dad;
   color: white;
   border: none;
@@ -9,16 +11,15 @@
   cursor: pointer;
   font-size: 16px;
 }
-
 .back-button:hover {
-  background-color: #2d333a;
+    background-color: #2d333a;
 }
 
 .registro-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 70vh;
 }
 
 .registro-box {
