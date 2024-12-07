@@ -41,7 +41,14 @@ export class OtOperarioComponent implements OnInit {
 
     this.otService.getAll().subscribe({
       next: (ots) => {
-        this.ots = ots.filter(ot => ot.username === username);
+        this.ots = ots
+          .filter((ot) => ot.username === username)
+          .map((ot) => ({
+            ...ot,
+            request_date: this.formatDateToDDMMYYYY(ot.request_date),
+            initial_date: ot.initial_date ? this.formatDateToDDMMYYYY(ot.initial_date) : 'Sin fecha',
+            completion_date: ot.completion_date ? this.formatDateToDDMMYYYY(ot.completion_date) : 'Sin fecha'
+          }));
         this.updatePagination();
       },
       error: () => {
@@ -51,8 +58,9 @@ export class OtOperarioComponent implements OnInit {
   }
 
   startTask(ot: Ot): void {
+    const today = this.getFormattedDateForUpdate();
     const updatedOt = {
-      initial_date: new Date().toISOString().slice(0, 19).replace('T', ' '), // Fecha actual en formato "YYYY-MM-DD HH:MM:SS"
+      initial_date: today,
       id_ot_state: 7 // Estado "En Progreso"
     };
 
@@ -68,12 +76,15 @@ export class OtOperarioComponent implements OnInit {
   }
 
   finishTask(ot: Ot): void {
-    const completionTime = prompt(`Por favor, ingrese el tiempo total utilizado (en minutos) para la OT con número de orden ${ot.order_number}:`);
+    const completionTime = prompt(
+      `Por favor, ingrese el tiempo total utilizado (en minutos) para la OT con número de orden ${ot.order_number}:`
+    );
 
     if (completionTime !== null) {
+      const today = this.getFormattedDateForUpdate();
       const updatedOt = {
-        completion_date: new Date().toISOString().slice(0, 19).replace('T', ' '), // Fecha actual en formato "YYYY-MM-DD HH:MM:SS"
-        completion_time: Number(completionTime), // Tiempo total ingresado
+        completion_date: today,
+        completion_time: Number(completionTime),
         id_ot_state: 8 // Estado "Finalizada"
       };
 
@@ -89,6 +100,22 @@ export class OtOperarioComponent implements OnInit {
     } else {
       this.message = 'No se ingresó tiempo de finalización. La tarea no se marcó como finalizada.';
     }
+  }
+
+  private getFormattedDateForUpdate(): string {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`; // Formato para la base de datos
+  }
+
+  private formatDateToDDMMYYYY(date: string | Date): string {
+    const parsedDate = typeof date === 'string' ? new Date(date) : date;
+    const day = String(parsedDate.getDate()).padStart(2, '0');
+    const month = String(parsedDate.getMonth() + 1).padStart(2, '0');
+    const year = parsedDate.getFullYear();
+    return `${day}-${month}-${year}`; // Formato "DD-MM-AAAA"
   }
 
   updatePagination(): void {

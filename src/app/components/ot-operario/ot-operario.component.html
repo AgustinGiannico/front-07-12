@@ -18,29 +18,24 @@
         <th>Lista de Tareas</th>
         <th>Prioridad</th>
         <th>Estado de la OT</th>
-        <th>Tag</th>
         <th>Acciones</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let ot of paginatedOts" class="ot-row">
         <td>{{ ot.order_number }}</td>
-        <td>{{ ot.request_date | date }}</td>
-        <td>{{ ot.initial_date || '-' }}</td>
-        <td>{{ ot.completion_date || '-' }}</td>
+        <td>{{ ot.request_date }}</td>
+        <td>{{ ot.initial_date }}</td>
+        <td>{{ ot.completion_date }}</td>
         <td>{{ ot.observations }}</td>
         <td>{{ ot.username || '-' }}</td>
         <td>{{ ot.task_list_steps || '-' }}</td>
         <td>{{ ot.priority || '-' }}</td>
         <td>{{ ot.ot_state || '-' }}</td>
-        <td>{{ ot.final_tag || '-' }}</td>
         <td>
-          <!-- Botón Iniciar Tarea -->
           <button *ngIf="ot.ot_state === 'Pendiente'" (click)="startTask(ot)" class="start-button">
             Iniciar Tarea
           </button>
-
-          <!-- Botón Terminar Tarea -->
           <button *ngIf="ot.ot_state === 'En progreso'" (click)="finishTask(ot)" class="finish-task-button">
             Terminar Tarea
           </button>

@@ -13,9 +13,9 @@
         <th>Fecha de Solicitud</th>
         <th>Fecha de Inicio</th>
         <th>Fecha de Finalización</th>
+        <th>Tiempo de Finalización</th>
         <th>Observaciones</th>
         <th>Usuario</th>
-        <th>Tiempo de Finalización</th>
         <th>Prioridad</th>
         <th>Estado de la OT</th>
         <th>Tag</th>
@@ -25,9 +25,9 @@
     <tbody>
       <tr *ngFor="let ot of paginatedOts" class="ot-row">
         <td>{{ ot.order_number }}</td>
-        <td>{{ ot.request_date | date }}</td>
-        <td>{{ ot.initial_date | date }}</td>
-        <td>{{ ot.completion_date | date }}</td>
+        <td>{{ ot.request_date }}</td>
+        <td>{{ ot.initial_date }}</td>
+        <td>{{ ot.completion_date }}</td>
         <td>{{ ot.completion_time || '-' }}</td>
         <td>{{ ot.observations }}</td>
         <td>{{ ot.username || '-' }}</td>

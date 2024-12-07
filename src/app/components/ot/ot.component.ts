@@ -54,15 +54,28 @@ export class OtComponent implements OnInit {
   getAllOts(): void {
     this.otService.getAll().subscribe({
       next: (ots) => {
-        this.ots = ots;
+        this.ots = ots.map((ot: Ot) => ({
+          ...ot,
+          request_date: this.formatDateToDDMMYYYY(ot.request_date),
+          initial_date: ot.initial_date ? this.formatDateToDDMMYYYY(ot.initial_date) : 'Sin fecha',
+          completion_date: ot.completion_date ? this.formatDateToDDMMYYYY(ot.completion_date) : 'Sin fecha',
+        }));
         this.updatePagination();
       },
       error: () => {
-        this.message = 'Error al cargar las órdenes de trabajo';
-      }
+        this.message = 'Error al cargar las órdenes de trabajo.';
+      },
     });
   }
-
+  
+  private formatDateToDDMMYYYY(date: string | Date): string {
+    const parsedDate = typeof date === 'string' ? new Date(date) : date;
+    const day = String(parsedDate.getDate()).padStart(2, '0');
+    const month = String(parsedDate.getMonth() + 1).padStart(2, '0'); // Mes comienza en 0
+    const year = parsedDate.getFullYear();
+    return `${day}-${month}-${year}`; // Formato "DD-MM-AAAA"
+  }
+  
 
   updatePagination(): void {
     this.totalPages = Math.ceil(this.ots.length / this.itemsPerPage);
