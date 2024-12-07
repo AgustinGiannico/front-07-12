@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { OtService } from '../../services/ot.service';
 import { Ot } from '../../interfaces/ot';
 import { EnviarDatosService } from '../../auth/enviar-datos.service';
@@ -13,10 +12,7 @@ import { EnviarDatosService } from '../../auth/enviar-datos.service';
 export class OtOperarioComponent implements OnInit {
   ots: Ot[] = [];
   paginatedOts: Ot[] = [];
-  otForm: FormGroup;
-  selectedOt: Ot | null = null;
   message: string | null = null;
-  showForm: boolean = false;
 
   currentPage: number = 1;
   itemsPerPage: number = 10;
@@ -24,27 +20,12 @@ export class OtOperarioComponent implements OnInit {
 
   constructor(
     private otService: OtService,
-    private fb: FormBuilder,
-    private enviarDatosService: EnviarDatosService, 
+    private enviarDatosService: EnviarDatosService,
     private location: Location
-  ) {
-    this.otForm = this.fb.group({
-      id_ot: [null],
-      order_number: ['', Validators.required],
-      request_date: ['', Validators.required],
-      initial_date: [''],
-      completion_date: [''],
-      observations: [''],
-      id_user: [null, Validators.required],
-      id_task_list: [null, Validators.required],
-      id_priority: [null, Validators.required],
-      id_ot_state: [null, Validators.required],
-      id_tag: [null, Validators.required]
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
-    this.getUserOts(); // Obtiene las órdenes del operario
+    this.getUserOts();
   }
 
   goBack(): void {
@@ -52,24 +33,63 @@ export class OtOperarioComponent implements OnInit {
   }
 
   getUserOts(): void {
-    const username = this.enviarDatosService.getUsername(); // Obtén el nombre del usuario logueado
+    const username = this.enviarDatosService.getUsername();
     if (!username) {
       this.message = 'No se pudo determinar el usuario logueado.';
       return;
     }
-  
+
     this.otService.getAll().subscribe({
       next: (ots) => {
-        // Filtrar las órdenes asignadas al usuario logueado
         this.ots = ots.filter(ot => ot.username === username);
         this.updatePagination();
       },
       error: () => {
-        this.message = 'Error al cargar las órdenes de trabajo';
+        this.message = 'Error al cargar las órdenes de trabajo.';
       }
     });
   }
-  
+
+  startTask(ot: Ot): void {
+    const updatedOt = {
+      initial_date: new Date().toISOString().slice(0, 19).replace('T', ' '), // Fecha actual en formato "YYYY-MM-DD HH:MM:SS"
+      id_ot_state: 7 // Estado "En Progreso"
+    };
+
+    this.otService.update(ot.id_ot, updatedOt).subscribe({
+      next: () => {
+        this.message = `La tarea con número de orden ${ot.order_number} ha sido marcada como "En Progreso".`;
+        this.getUserOts(); // Refresca la lista de OT
+      },
+      error: () => {
+        this.message = 'Hubo un error al intentar iniciar la tarea.';
+      }
+    });
+  }
+
+  finishTask(ot: Ot): void {
+    const completionTime = prompt(`Por favor, ingrese el tiempo total utilizado (en minutos) para la OT con número de orden ${ot.order_number}:`);
+
+    if (completionTime !== null) {
+      const updatedOt = {
+        completion_date: new Date().toISOString().slice(0, 19).replace('T', ' '), // Fecha actual en formato "YYYY-MM-DD HH:MM:SS"
+        completion_time: Number(completionTime), // Tiempo total ingresado
+        id_ot_state: 8 // Estado "Finalizada"
+      };
+
+      this.otService.update(ot.id_ot, updatedOt).subscribe({
+        next: () => {
+          this.message = `La tarea con número de orden ${ot.order_number} ha sido marcada como "Finalizada".`;
+          this.getUserOts(); // Refresca la lista de OT
+        },
+        error: () => {
+          this.message = 'Hubo un error al intentar finalizar la tarea.';
+        }
+      });
+    } else {
+      this.message = 'No se ingresó tiempo de finalización. La tarea no se marcó como finalizada.';
+    }
+  }
 
   updatePagination(): void {
     this.totalPages = Math.ceil(this.ots.length / this.itemsPerPage);
@@ -94,12 +114,5 @@ export class OtOperarioComponent implements OnInit {
       this.currentPage--;
       this.updatePaginatedOts();
     }
-  }
-
-  clearForm(): void {
-    this.otForm.reset();
-    this.selectedOt = null;
-    this.showForm = false;
-    this.message = null;
   }
 }

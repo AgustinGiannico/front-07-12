@@ -15,7 +15,7 @@
         <th>Fecha de Finalización</th>
         <th>Observaciones</th>
         <th>Usuario</th>
-        <th>Lista de Tareas</th>
+        <th>Tiempo de Finalización</th>
         <th>Prioridad</th>
         <th>Estado de la OT</th>
         <th>Tag</th>
@@ -28,14 +28,13 @@
         <td>{{ ot.request_date | date }}</td>
         <td>{{ ot.initial_date | date }}</td>
         <td>{{ ot.completion_date | date }}</td>
+        <td>{{ ot.completion_time || '-' }}</td>
         <td>{{ ot.observations }}</td>
         <td>{{ ot.username || '-' }}</td>
-        <td>{{ ot.task_list_steps || '-' }}</td>
         <td>{{ ot.priority || '-' }}</td>
         <td>{{ ot.ot_state || '-' }}</td>
         <td>{{ ot.final_tag || '-' }}</td>
         <td>
-          <button class="edit-button" (click)="editOt(ot)">Editar</button>
           <button class="delete-button" (click)="deleteOt(ot.id_ot)">Eliminar</button>
         </td>
       </tr>

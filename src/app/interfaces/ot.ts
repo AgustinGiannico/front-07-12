@@ -4,6 +4,7 @@ export interface Ot {
     request_date: string | Date;
     initial_date: string | Date;
     completion_date: string | Date;
+    completion_time: number;
     observations: string;
     id_user: number;
     id_task_list: number;

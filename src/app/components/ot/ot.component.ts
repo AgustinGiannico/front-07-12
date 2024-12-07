@@ -33,6 +33,7 @@ export class OtComponent implements OnInit {
       request_date: [''],
       initial_date: [''],
       completion_date: [''],
+      completion_time: [''],
       observations: [''],
       id_user: [null, Validators.required],
       id_task_list: [null, Validators.required],
